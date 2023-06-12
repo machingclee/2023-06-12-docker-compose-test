@@ -1,0 +1,27 @@
+version: '3'
+services: 
+    add-user:
+       image: add-user:1.0
+       ports:
+            - 3000:3000
+       depends_on:
+            - mongodb-test
+    mongodb-test:                # container name (--name param)
+        image: mongo        # the image tag
+        ports:
+            - 27017:27017 
+        environment:
+            - MONGO_INITDB_DATABASE=admin
+            - MONGO_INITDB_ROOT_USERNAME=admin
+            - MONGO_INITDB_ROOT_PASSWORD=123
+    mongo-express:
+        image: mongo-express
+        restart: always
+        ports:
+            - 8080:8081
+        depends_on:
+            - mongodb-test         # wait for the container mongodb to start
+        environment:
+            - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+            - ME_CONFIG_MONGODB_ADMINPASSWORD=123
+            - ME_CONFIG_MONGODB_SERVER=mongodb-test 
