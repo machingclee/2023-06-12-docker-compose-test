@@ -2,13 +2,13 @@ import express, { Request, Response } from "express";
 import mongoose, { InferSchemaType, Schema } from "mongoose";
 
 const mongoDbContainerName = "mongodb-test";
-
+const dbName = "JamesTestDB";
 
 (async () => {
   try {
     console.log("Start mongo connection ...")
     await mongoose.connect(
-      `mongodb://admin:123@${mongoDbContainerName}:27017`,
+      `mongodb://admin:123@${mongoDbContainerName}:27017/${dbName}?authSource=admin`,
       {
         connectTimeoutMS: 30000,
         serverSelectionTimeoutMS: 30000
